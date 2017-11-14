@@ -12,5 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-key 116   POWER             WAKE
-key 158   MUTE
+key 114   VOLUME_DOWN
+key 115   VOLUME_UP
+key 163   MEDIA_PLAY_PAUSE
+key 164   MEDIA_NEXT
+key 165   MEDIA_PREVIOUS
