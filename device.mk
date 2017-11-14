@@ -220,6 +220,11 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.hwui.text_large_cache_width=2048 \
     ro.hwui.text_large_cache_height=1024
 
+# Audio
+PRODUCT_PROPERTY_OVERRIDES += \
+	ro.config.media_vol_steps=30 \
+	ro.config.vc_call_vol_steps=30
+
 #skip boot jars check
 SKIP_BOOT_JARS_CHECK := true
 
