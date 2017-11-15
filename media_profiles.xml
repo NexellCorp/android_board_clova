@@ -91,18 +91,46 @@
                    <!--channels="1" />-->
         <!--</EncoderProfile>-->
 
-        <EncoderProfile quality="720p" fileFormat="mp4" duration="30">
+        <EncoderProfile quality="qvga" fileFormat="mp4" duration="60">
             <Video codec="h264"
-                   bitRate="8000000"
-                   width="704"
-                   height="480"
+                   bitRate="512000"
+                   width="320"
+                   height="240"
                    frameRate="30" />
 
             <Audio codec="aac"
+                   bitRate="156000"
+                   sampleRate="48000"
+                   channels="2" />
+        </EncoderProfile>
+
+	<EncoderProfile quality="720p" fileFormat="mp4" duration="30">
+            <Video codec="h264"
+                   bitRate="18000000"
+                   width="1280"
+                   height="720"
+                   frameRate="60" />
+
+            <Audio codec="aac"
                    bitRate="96000"
-                   sampleRate="44100"
+                   sampleRate="48000"
                    channels="1" />
         </EncoderProfile>
+
+	<EncoderProfile quality="1080p" fileFormat="mp4" duration="30">
+            <Video codec="h264"
+                   bitRate="33000000"
+                   width="1920"
+                   height="1080"
+                   frameRate="60" />
+
+            <Audio codec="aac"
+                   bitRate="96000"
+                   sampleRate="48000"
+                   channels="1" />
+        </EncoderProfile>
+
+	<!-- ToDo : add quality="high"(qsxga:2592*1944) -->
 
         <!--<EncoderProfile quality="timelapse1080p" fileFormat="mp4" duration="60">-->
             <!--<Video codec="h264"-->
@@ -205,7 +233,7 @@
 	        codec cap
     -->
     <VideoEncoderCap name="h264" enabled="true"
-        minBitRate="64000" maxBitRate="12000000"
+        minBitRate="64000" maxBitRate="100000000"
         minFrameWidth="128" maxFrameWidth="1920"
         minFrameHeight="96" maxFrameHeight="1200"
         minFrameRate="15" maxFrameRate="30" />
