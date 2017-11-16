@@ -1,2 +1,4 @@
 allow shell device:dir { open read };
 allow shell debugfs:dir read;
+allow shell audio_device:dir { open read write search };
+allow shell audio_device:chr_file { open read write ioctl };
