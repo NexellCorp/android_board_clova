@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+key 113   BACK
 key 114   VOLUME_DOWN
 key 115   VOLUME_UP
 key 163   MEDIA_PLAY_PAUSE
