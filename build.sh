@@ -15,8 +15,10 @@ print_args
 setup_toolchain
 export_work_dir
 
+revert_common ${TOP}/device/nexell/clova/patch
 revert_common ${TOP}/device/nexell/patch
 patch_common ${TOP}/device/nexell/patch
+patch_common ${TOP}/device/nexell/clova/patch
 
 DEV_PORTNUM=0
 MEMSIZE="2GB"
