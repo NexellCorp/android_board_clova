@@ -228,4 +228,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
 #skip boot jars check
 SKIP_BOOT_JARS_CHECK := true
 
+#bootanimation
+PRODUCT_COPY_FILES += \
+	device/nexell/clova/bootanimation.zip:system/media/bootanimation.zip
+
 $(call inherit-product, frameworks/base/data/fonts/fonts.mk)
