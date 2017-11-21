@@ -235,7 +235,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 #Screen
 #ROTATION_0 = 0, ROTATION_90 = 1,  ROTATION_180 = 2, ROTATION_270 = 3
 PRODUCT_PROPERTY_OVERRIDES += \
-	ro.orientation=3
+	ro.orientation=1
 
 
 #skip boot jars check
