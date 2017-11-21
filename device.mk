@@ -225,6 +225,12 @@ PRODUCT_PROPERTY_OVERRIDES += \
 	ro.config.media_vol_steps=30 \
 	ro.config.vc_call_vol_steps=30
 
+#Screen
+#ROTATION_0 = 0, ROTATION_90 = 1,  ROTATION_180 = 2, ROTATION_270 = 3
+PRODUCT_PROPERTY_OVERRIDES += \
+	ro.orientation=3
+
+
 #skip boot jars check
 SKIP_BOOT_JARS_CHECK := true
 
