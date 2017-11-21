@@ -127,7 +127,14 @@ PRODUCT_PACKAGES += \
 	audio.a2dp.default \
 	audio.usb.default \
 	audio.r_submix.default \
-	tinyplay
+	tinyplay \
+	tinycap
+
+PRODUCT_PACKAGES += \
+	smart_voice_and \
+	test-nx-voice \
+	libresample \
+	libpowervoice
 
 # libion needed by gralloc, ogl
 PRODUCT_PACKAGES += libion iontest
