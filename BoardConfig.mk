@@ -107,6 +107,9 @@ PRODUCT_DEFAULT_DEV_CERTIFICATE := device/nexell/clova/signing_keys/release
 
 # camera
 BOARD_CAMERA_BACK_DEVICE := "/dev/video6"
+BOARD_CAMERA_FRONT_DEVICE := "/dev/video7"
 BOARD_CAMERA_NUM := 1
 # default = false or none
 BOARD_CAMERA_USE_ZOOM := false
+BOARD_CAMERA_INTERLACED := true
+BOARD_CAMERA_SKIP_FRAME := 10
