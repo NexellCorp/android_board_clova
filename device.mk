@@ -132,7 +132,8 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_PACKAGES += \
 	smart_voice_and \
-	test-nx-voice \
+	libnxvoice \
+	test-pvo \
 	libresample \
 	libpowervoice
 
