@@ -187,16 +187,8 @@ PRODUCT_PACKAGES += \
     wpa_supplicant \
     wpa_supplicant.conf
 
-PRODUCT_PACKAGES += \
-	rtw_fwloader
-
-PRODUCT_COPY_FILES += \
-	hardware/realtek/wlan/driver/rtl8188eus/wlan.ko:system/vendor/realtek/wlan.ko
-
 PRODUCT_PROPERTY_OVERRIDES += \
 	wifi.interface=wlan0
-
-$(call inherit-product-if-exists, hardware/realtek/wlan/config/p2p_supplicant.mk)
 
 DEVICE_PACKAGE_OVERLAYS := device/nexell/clova/overlay
 
@@ -245,5 +237,12 @@ SKIP_BOOT_JARS_CHECK := true
 #bootanimation
 PRODUCT_COPY_FILES += \
 	device/nexell/clova/bootanimation.zip:system/media/bootanimation.zip
+#WIFI
+PRODUCT_COPY_FILES += \
+	device/nexell/clova/wifi/bcmdhd.cal:system/etc/wifi/bcmdhd.cal \
+	device/nexell/clova/wifi/fw_bcmdhd.bin:system/etc/firmware/fw_bcmdhd.bin \
+	device/nexell/clova/wifi/fw_bcmdhd_apsta.bin:system/etc/firmware/fw_bcmdhd_apsta.bin
+
 
 $(call inherit-product, frameworks/base/data/fonts/fonts.mk)
+$(call inherit-product-if-exists, hardware/broadcom/wlan/bcmdhd/config/config-bcm.mk)
