@@ -239,6 +239,8 @@ PRODUCT_COPY_FILES += \
 	device/nexell/clova/bootanimation.zip:system/media/bootanimation.zip
 #WIFI
 PRODUCT_COPY_FILES += \
+	device/nexell/clova/wifi/dhd:system/bin/dhd \
+	device/nexell/clova/wifi/wl:system/bin/wl \
 	device/nexell/clova/wifi/bcmdhd.cal:system/etc/wifi/bcmdhd.cal \
 	device/nexell/clova/wifi/fw_bcmdhd.bin:system/etc/firmware/fw_bcmdhd.bin \
 	device/nexell/clova/wifi/fw_bcmdhd_apsta.bin:system/etc/firmware/fw_bcmdhd_apsta.bin

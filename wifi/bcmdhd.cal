@@ -11,6 +11,9 @@ nocrc=1
 boardtype=0x6e4
 boardrev=0x1304
 
+# HW OOB  htdo
+muxenab=0x10
+
 #XTAL 37.4MHz
 xtalfreq=37400
 
