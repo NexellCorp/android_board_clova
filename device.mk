@@ -135,7 +135,8 @@ PRODUCT_PACKAGES += \
 	libnxvoice \
 	test-pvo \
 	libresample \
-	libpowervoice
+	libpvo \
+	libpovosource
 
 # libion needed by gralloc, ogl
 PRODUCT_PACKAGES += libion iontest
