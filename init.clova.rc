@@ -75,6 +75,9 @@ on post-fs-data
     mkdir /data/misc/dhcp 0770 dhcp dhcp
     chown dhcp dhcp /data/misc/dhcp
 
+    mkdir /data/povo
+    chmod 0777 /data/povo
+
     chmod 0666 /data/system/users/0/wallpaper_orig
     chmod 0666 /data/system/users/0/wallpaper
     chmod 0666 /data/system/users/0/wallpaper_info.xml
