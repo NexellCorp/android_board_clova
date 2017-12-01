@@ -230,6 +230,21 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
 	ro.orientation=1
 
+# Audio HAL nx-smartvoice property
+PRODUCT_PROPERTY_OVERRIDES += \
+	persist.nv.use_nxvoice=1 \
+	persist.nv.voice_vendor=pvo \
+	persist.nv.use_feedback=0 \
+	persist.nv.pdm_devnum=2 \
+	persist.nv.ref_devnum=1 \
+	persist.nv.feedback_devnum=3 \
+	persist.nv.pdm_chnum=4 \
+	persist.nv.pdm_gain=0 \
+	persist.nv.resample_out_chnum=1 \
+	persist.nv.check_trigger=1 \
+	persist.nv.trigger_done_ret=1 \
+	persist.nv.pass_after_trigger=0 \
+	persist.nv.nxvoice_verbose=0
 
 #skip boot jars check
 SKIP_BOOT_JARS_CHECK := true
