@@ -1,2 +1,4 @@
 allow netd kernel:system module_request;
 allow netd self:capability sys_module;
+allow netd audioserver:fd use;
+allow netd audioserver:tcp_socket { read write getopt setopt };
