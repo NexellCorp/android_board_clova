@@ -43,3 +43,52 @@ index 889c52a..17761eb 100644
              }
          }
      }
+diff --git services/core/java/com/android/server/audio/AudioService.java services/core/java/com/android/server/audio/AudioService.java
+index c70a87c..d52b410 100644
+--- services/core/java/com/android/server/audio/AudioService.java
++++ services/core/java/com/android/server/audio/AudioService.java
+@@ -614,8 +614,42 @@ public class AudioService extends IAudioService.Stub {
+         Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+         mHasVibrator = vibrator == null ? false : vibrator.hasVibrator();
+ 
+-        // Initialize volume
+-        int maxVolume = SystemProperties.getInt("ro.config.vc_call_vol_steps",
++       // Initialize volume
++		int defaultMaxVolume = SystemProperties.getInt("ro.config.default_vol_steps",0);
++		if (defaultMaxVolume != 0) {
++
++			MAX_STREAM_VOLUME[AudioSystem.STREAM_VOICE_CALL] = defaultMaxVolume;
++            AudioSystem.DEFAULT_STREAM_VOLUME[AudioSystem.STREAM_VOICE_CALL] = (defaultMaxVolume * 3) / 4;
++
++			MAX_STREAM_VOLUME[AudioSystem.STREAM_SYSTEM] = defaultMaxVolume;
++            AudioSystem.DEFAULT_STREAM_VOLUME[AudioSystem.STREAM_SYSTEM] = (defaultMaxVolume * 3) / 4;
++
++			MAX_STREAM_VOLUME[AudioSystem.STREAM_RING] = defaultMaxVolume;
++            AudioSystem.DEFAULT_STREAM_VOLUME[AudioSystem.STREAM_RING] = (defaultMaxVolume * 3) / 4;
++
++			MAX_STREAM_VOLUME[AudioSystem.STREAM_MUSIC] = defaultMaxVolume;
++            AudioSystem.DEFAULT_STREAM_VOLUME[AudioSystem.STREAM_MUSIC] = (defaultMaxVolume * 3) / 4;
++
++			MAX_STREAM_VOLUME[AudioSystem.STREAM_ALARM] = defaultMaxVolume;
++            AudioSystem.DEFAULT_STREAM_VOLUME[AudioSystem.STREAM_ALARM] = (defaultMaxVolume * 3) / 4;
++
++			MAX_STREAM_VOLUME[AudioSystem.STREAM_NOTIFICATION] = defaultMaxVolume;
++            AudioSystem.DEFAULT_STREAM_VOLUME[AudioSystem.STREAM_NOTIFICATION] = (defaultMaxVolume * 3) / 4;
++
++			MAX_STREAM_VOLUME[AudioSystem.STREAM_BLUETOOTH_SCO] = defaultMaxVolume;
++            AudioSystem.DEFAULT_STREAM_VOLUME[AudioSystem.STREAM_BLUETOOTH_SCO] = (defaultMaxVolume * 3) / 4;
++
++			MAX_STREAM_VOLUME[AudioSystem.STREAM_SYSTEM_ENFORCED] = defaultMaxVolume;
++            AudioSystem.DEFAULT_STREAM_VOLUME[AudioSystem.STREAM_SYSTEM_ENFORCED] = (defaultMaxVolume * 3) / 4;
++
++			MAX_STREAM_VOLUME[AudioSystem.STREAM_DTMF] = defaultMaxVolume;
++            AudioSystem.DEFAULT_STREAM_VOLUME[AudioSystem.STREAM_DTMF] = (defaultMaxVolume * 3) / 4;
++
++			MAX_STREAM_VOLUME[AudioSystem.STREAM_TTS] = defaultMaxVolume;
++            AudioSystem.DEFAULT_STREAM_VOLUME[AudioSystem.STREAM_TTS] = (defaultMaxVolume * 3) / 4;
++
++		}
++		int maxVolume = SystemProperties.getInt("ro.config.vc_call_vol_steps",
+                 MAX_STREAM_VOLUME[AudioSystem.STREAM_VOICE_CALL]);
+         if (maxVolume != MAX_STREAM_VOLUME[AudioSystem.STREAM_VOICE_CALL]) {
+             MAX_STREAM_VOLUME[AudioSystem.STREAM_VOICE_CALL] = maxVolume;
