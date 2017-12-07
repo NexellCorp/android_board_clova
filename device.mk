@@ -224,8 +224,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # Audio
 PRODUCT_PROPERTY_OVERRIDES += \
-	ro.config.media_vol_steps=30 \
-	ro.config.vc_call_vol_steps=30
+	ro.config.default_vol_steps=100
 
 #Screen
 #ROTATION_0 = 0, ROTATION_90 = 1,  ROTATION_180 = 2, ROTATION_270 = 3
