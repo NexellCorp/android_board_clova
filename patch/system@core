@@ -1,0 +1,40 @@
+diff --git init/property_service.cpp init/property_service.cpp
+index 5c1ae79..492f1e7 100644
+--- init/property_service.cpp
++++ init/property_service.cpp
+@@ -331,6 +331,17 @@ static void load_properties(char *data, const char *filter)
+ {
+     char *key, *value, *eol, *sol, *tmp, *fn;
+     size_t flen = 0;
++	int dbg_locked=0;
++
++	import_kernel_cmdline(false, [&](const std::string& key,
++		const std::string& value, bool in_qemu) {
++		if (key == "dbg_locked" && value == "1") {
++			dbg_locked = 1;
++		}
++		else {
++			dbg_locked = 0;
++		}
++	});
+ 
+     if (filter) {
+         flen = strlen(filter);
+@@ -377,8 +388,15 @@ static void load_properties(char *data, const char *filter)
+                     if (strcmp(key, filter)) continue;
+                 }
+             }
+-
+-            property_set(key, value);
++			if(dbg_locked) {
++				if(!strncmp(key, "ro.debuggable", 13)) {
++					strncpy(value,"0",1);
++				}
++				if(!strncmp(key, "persist.sys.usb.config", 22)) {
++					strncpy(value,"none",4);
++				}
++			}
++			property_set(key, value);
+         }
+     }
+ }
