@@ -33,7 +33,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
 	ro.product.first_api_level=21
 
 # Disable bluetooth because clova does not use bluetooth source
-PRODUCT_DEFAULT_PROPERTY_OVERRIDES += config.disable_bluetooth=true
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES += config.disable_bluetooth=false \
+        ro.bluetooth.hfp.ver=1.6
 
 # Disable other feature no needed in avn board
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += config.disable_serial=true
