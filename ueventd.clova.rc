@@ -21,3 +21,12 @@
 /dev/ttyAMA*	0666	system	system
 /dev/scaler		0666	system	system
 /dev/snd/*		0666	system	system
+/dev/input/*	0666	system	system
+
+
+#Sensor devices
+/dev/iio:device* 0660 system system
+/sys/bus/iio/devices/iio:device0 in_illuminance_raw 0660 system system
+
+#backlight
+/sys/class/backlight/pwm-backlight brightness 0660 system system
