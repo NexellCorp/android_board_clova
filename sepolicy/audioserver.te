@@ -1,6 +1,8 @@
 allow audioserver rootfs:lnk_file getattr;
-allow audioserver self:tcp_socket { create connect write };
+allow audioserver node_type:{ tcp_socket udp_socket } node_bind;
+allow audioserver port_type:tcp_socket name_bind;
+allow audioserver self:tcp_socket { create connect write bind accept name_bind listen};
 allow audioserver fwmarkd_socket:sock_file write;
 allow audioserver netd:unix_stream_socket connectto;
-allow audioserver port:tcp_socket name_connect;
+allow audioserver port:tcp_socket { name_connect name_bind };
 allow audioserver sysfs:file { open read write getattr };
