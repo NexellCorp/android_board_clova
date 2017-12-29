@@ -161,6 +161,9 @@ PRODUCT_PACKAGES += \
 	camera.clova	\
 	lights.clova
 
+PRODUCT_PACKAGES += \
+	sensors.clova
+
 # tinyalsa
 PRODUCT_PACKAGES += \
 	libtinyalsa \
