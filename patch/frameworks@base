@@ -1,3 +1,15 @@
+diff --git media/java/android/media/AudioAttributes.java media/java/android/media/AudioAttributes.java
+index 89709ee..bc1dae8 100644
+--- media/java/android/media/AudioAttributes.java
++++ media/java/android/media/AudioAttributes.java
+@@ -654,6 +654,7 @@ public final class AudioAttributes implements Parcelable {
+                 case MediaRecorder.AudioSource.VOICE_RECOGNITION:
+                 case MediaRecorder.AudioSource.VOICE_COMMUNICATION:
+                 case MediaRecorder.AudioSource.UNPROCESSED:
++                case MediaRecorder.AudioSource.VOICE_CALL:
+                     mSource = preset;
+                     break;
+                 default:
 diff --git services/core/java/com/android/server/policy/PhoneWindowManager.java services/core/java/com/android/server/policy/PhoneWindowManager.java
 index 889c52a..17761eb 100644
 --- services/core/java/com/android/server/policy/PhoneWindowManager.java
