@@ -1,0 +1,24 @@
+diff --git services/audioflinger/ServiceUtilities.cpp services/audioflinger/ServiceUtilities.cpp
+index 3c73543..8b011bc 100644
+--- services/audioflinger/ServiceUtilities.cpp
++++ services/audioflinger/ServiceUtilities.cpp
+@@ -105,12 +105,13 @@ bool recordingAllowed(const String16& opPackageName, pid_t pid, uid_t uid) {
+     return true;
+ }
+ 
+-bool captureAudioOutputAllowed(pid_t pid, uid_t uid) {
+-    if (getpid_cached == IPCThreadState::self()->getCallingPid()) return true;
+-    static const String16 sCaptureAudioOutput("android.permission.CAPTURE_AUDIO_OUTPUT");
+-    bool ok = checkPermission(sCaptureAudioOutput, pid, uid);
+-    if (!ok) ALOGE("Request requires android.permission.CAPTURE_AUDIO_OUTPUT");
+-    return ok;
++bool captureAudioOutputAllowed(pid_t pid __unused, uid_t uid __unused) {
++    // if (getpid_cached == IPCThreadState::self()->getCallingPid()) return true;
++    // static const String16 sCaptureAudioOutput("android.permission.CAPTURE_AUDIO_OUTPUT");
++    // bool ok = checkPermission(sCaptureAudioOutput, pid, uid);
++    // if (!ok) ALOGE("Request requires android.permission.CAPTURE_AUDIO_OUTPUT");
++    // return ok;
++    return true;
+ }
+ 
+ bool captureHotwordAllowed() {
