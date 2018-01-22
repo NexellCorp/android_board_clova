@@ -1,0 +1,23 @@
+diff --git app.te app.te
+index e9dd7b3..6c4645b 100644
+--- app.te
++++ app.te
+@@ -282,7 +282,6 @@ neverallow appdomain dev_type:blk_file { read write };
+ 
+ # Access to any of the following character devices.
+ neverallow appdomain {
+-    audio_device
+     camera_device
+     dm_device
+     gps_device
+diff --git audioserver.te audioserver.te
+index da12649..fa4d084 100644
+--- audioserver.te
++++ audioserver.te
+@@ -50,6 +50,3 @@ unix_socket_connect(audioserver, bluetooth, bluetooth)
+ # audioserver should never execute any executable without a
+ # domain transition
+ neverallow audioserver { file_type fs_type }:file execute_no_trans;
+-
+-# audioserver should never need network access. Disallow network sockets.
+-neverallow audioserver domain:{ tcp_socket udp_socket rawip_socket } *;
