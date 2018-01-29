@@ -268,6 +268,9 @@ SKIP_BOOT_JARS_CHECK := true
 #bootanimation
 PRODUCT_COPY_FILES += \
 	device/nexell/clova/bootanimation.zip:system/media/bootanimation.zip
+
+PRODUCT_COPY_FILES += \
+	device/nexell/clova/Charging.bmp:system/media/Charging.bmp
 #WIFI
 PRODUCT_COPY_FILES += \
 	device/nexell/clova/wifi/dhd:system/bin/dhd \
