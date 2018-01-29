@@ -18,40 +18,70 @@ index 889c52a..17761eb 100644
      IUiModeManager mUiModeManager;
      int mUiMode;
      int mDockMode = Intent.EXTRA_DOCK_STATE_UNDOCKED;
-+	int mDefaultOrientation = Surface.ROTATION_0;
++       int mDefaultOrientation = Surface.ROTATION_0;
      int mLidOpenRotation;
      int mCarDockRotation;
      int mDeskDockRotation;
-@@ -1715,6 +1716,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
+@@ -1356,7 +1357,11 @@ public class PhoneWindowManager implements WindowManagerPolicy {
+     }
+
+     private void powerLongPress() {
++               Slog.i(TAG, "powerLongPress");
++               SystemProperties.set("sys.powerctl", "reboot,charging");
++               /*
+         final int behavior = getResolvedLongPressOnPowerBehavior();
++
+         switch (behavior) {
+         case LONG_PRESS_POWER_NOTHING:
+             break;
+@@ -1375,6 +1380,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
+             mWindowManagerFuncs.shutdown(behavior == LONG_PRESS_POWER_SHUT_OFF);
+             break;
+         }
++               */
+     }
+
+     private void backLongPress() {
+@@ -1715,6 +1721,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
          mPowerKeyWakeLock = mPowerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
                  "PhoneWindowManager.mPowerKeyWakeLock");
          mEnableShiftMenuBugReports = "1".equals(SystemProperties.get("ro.debuggable"));
-+		mDefaultOrientation = Integer.parseInt(SystemProperties.get("ro.orientation","0"));
++               mDefaultOrientation = Integer.parseInt(SystemProperties.get("ro.orientation","0"));
          mSupportAutoRotation = mContext.getResources().getBoolean(
                  com.android.internal.R.bool.config_supportAutoRotation);
          mLidOpenRotation = readRotation(
-@@ -6797,12 +6799,10 @@ public class PhoneWindowManager implements WindowManagerPolicy {
+@@ -5924,7 +5931,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
+             case KeyEvent.KEYCODE_POWER: {
+                 result &= ~ACTION_PASS_TO_USER;
+                 isWakeKey = false; // wake-up will be handled separately
++                                       Slog.d(TAG, "MCJINO: KEYCODE_POWER.");
+                 if (down) {
++                                       Slog.d(TAG, "MCJINO: KEYCODE_POWER.");
+                     interceptPowerKeyDown(event, interactive);
+                 } else {
+                     interceptPowerKeyUp(event, interactive, canceled);
+@@ -6797,12 +6806,10 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                              ? "USER_ROTATION_LOCKED" : "")
                          );
          }
 -
 -        if (mForceDefaultOrientation) {
 -            return Surface.ROTATION_0;
-+		if (mForceDefaultOrientation) {
++               if (mForceDefaultOrientation) {
 +            return mDefaultOrientation;
          }
 -
 -        synchronized (mLock) {
-+		synchronized (mLock) {
++               synchronized (mLock) {
              int sensorRotation = mOrientationListener.getProposedRotation(); // may be -1
              if (sensorRotation < 0) {
                  sensorRotation = lastRotation;
-@@ -6947,7 +6947,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
+@@ -6947,7 +6954,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                      if (preferredRotation >= 0) {
                          return preferredRotation;
                      }
 -                    return Surface.ROTATION_0;
-+					return mDefaultOrientation;
++                                       return mDefaultOrientation;
              }
          }
      }
