@@ -1,0 +1,11 @@
+LOCAL_PATH          :=$(call my-dir)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE        := NaverPoVo
+LOCAL_SRC_FILES     := NaverPoVo.apk
+LOCAL_MODULE_PATH   := $(TARGET_OUT_APPS)
+LOCAL_MODULE_CLASS  := APPS
+LOCAL_MODULE_OWNER  := PowerVoice
+LOCAL_MODULE_TAGS   := optional
+LOCAL_CERTIFICATE   := PRESIGNED
+include $(BUILD_PREBUILT)

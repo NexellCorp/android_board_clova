@@ -148,7 +148,8 @@ PRODUCT_PACKAGES += \
 	test-pvo \
 	libresample \
 	libpvo \
-	libpovosource
+	libpovosource \
+	NaverPoVo
 
 # libion needed by gralloc, ogl
 PRODUCT_PACKAGES += libion iontest
