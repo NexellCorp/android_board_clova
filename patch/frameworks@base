@@ -87,33 +87,10 @@ index c70a87c..d52b410 100644
          if (maxVolume != MAX_STREAM_VOLUME[AudioSystem.STREAM_VOICE_CALL]) {
              MAX_STREAM_VOLUME[AudioSystem.STREAM_VOICE_CALL] = maxVolume;
 diff --git services/core/java/com/android/server/policy/PhoneWindowManager.java services/core/java/com/android/server/policy/PhoneWindowManager.java
-index 889c52a..22109b8 100644
+index 889c52a..af02afe 100644
 --- services/core/java/com/android/server/policy/PhoneWindowManager.java
 +++ services/core/java/com/android/server/policy/PhoneWindowManager.java
-@@ -100,6 +100,8 @@ import android.os.SystemProperties;
- import android.os.UEventObserver;
- import android.os.UserHandle;
- import android.os.Vibrator;
-+import android.os.BatteryManager;
-+import android.os.BatteryManagerInternal;
- import android.provider.MediaStore;
- import android.provider.Settings;
- import android.service.dreams.DreamManagerInternal;
-@@ -312,6 +314,13 @@ public class PhoneWindowManager implements WindowManagerPolicy {
-     /** Amount of time (in milliseconds) a toast window can be shown. */
-     public static final int TOAST_WINDOW_TIMEOUT = 3500; // 3.5 seconds
- 
-+       private BatteryManagerInternal mBatteryManagerInternal;
-+       /* The current plug type, such as BatteryManager.BATTERY_PLUGGED_WIRELESS. */
-+       private int mPlugType;
-+       /* True if the device is plugged into a power source. */
-+       private boolean mIsPowered;
-+
-+
-     /**
-      * Lock protecting internal state.  Must not call out into window
-      * manager with lock held.  (This lock will be acquired in places
-@@ -443,6 +452,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
+@@ -443,6 +443,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
      IUiModeManager mUiModeManager;
      int mUiMode;
      int mDockMode = Intent.EXTRA_DOCK_STATE_UNDOCKED;
@@ -121,40 +98,25 @@ index 889c52a..22109b8 100644
      int mLidOpenRotation;
      int mCarDockRotation;
      int mDeskDockRotation;
-@@ -1356,7 +1366,15 @@ public class PhoneWindowManager implements WindowManagerPolicy {
+@@ -1356,7 +1357,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
      }
  
      private void powerLongPress() {
-+		Slog.e(TAG, "powerLongPress");
-+		mIsPowered = mBatteryManagerInternal.isPowered(BatteryManager.BATTERY_PLUGGED_ANY);
-+		if(mIsPowered)
-+			SystemProperties.set("sys.powerctl", "reboot,charging");
-+		else
-+			SystemProperties.set("sys.powerctl", "reboot");
-+		/*
++
          final int behavior = getResolvedLongPressOnPowerBehavior();
 +
          switch (behavior) {
          case LONG_PRESS_POWER_NOTHING:
              break;
-@@ -1375,6 +1393,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
+@@ -1375,6 +1378,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
              mWindowManagerFuncs.shutdown(behavior == LONG_PRESS_POWER_SHUT_OFF);
              break;
          }
-+		*/
++
      }
  
      private void backLongPress() {
-@@ -1647,6 +1666,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
-         mPowerManagerInternal = LocalServices.getService(PowerManagerInternal.class);
-         mAppOpsManager = (AppOpsManager) mContext.getSystemService(Context.APP_OPS_SERVICE);
-         mHasFeatureWatch = mContext.getPackageManager().hasSystemFeature(FEATURE_WATCH);
-+		//mBatteryManagerInternal = getLocalService(BatteryManagerInternal.class);
-+		mBatteryManagerInternal = LocalServices.getService(BatteryManagerInternal.class);
- 
-         // Init display burn-in protection
-         boolean burnInProtectionEnabled = context.getResources().getBoolean(
-@@ -1715,6 +1736,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
+@@ -1715,6 +1719,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
          mPowerKeyWakeLock = mPowerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
                  "PhoneWindowManager.mPowerKeyWakeLock");
          mEnableShiftMenuBugReports = "1".equals(SystemProperties.get("ro.debuggable"));
@@ -162,7 +124,7 @@ index 889c52a..22109b8 100644
          mSupportAutoRotation = mContext.getResources().getBoolean(
                  com.android.internal.R.bool.config_supportAutoRotation);
          mLidOpenRotation = readRotation(
-@@ -1785,6 +1807,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
+@@ -1785,6 +1790,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
          mAccessibilityManager = (AccessibilityManager) context.getSystemService(
                  Context.ACCESSIBILITY_SERVICE);
  
@@ -170,7 +132,7 @@ index 889c52a..22109b8 100644
          // register for dock events
          IntentFilter filter = new IntentFilter();
          filter.addAction(UiModeManager.ACTION_ENTER_CAR_MODE);
-@@ -6354,7 +6377,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
+@@ -6354,7 +6360,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
              }
          }
      };
@@ -178,7 +140,7 @@ index 889c52a..22109b8 100644
      private final Runnable mHiddenNavPanic = new Runnable() {
          @Override
          public void run() {
-@@ -6797,12 +6819,10 @@ public class PhoneWindowManager implements WindowManagerPolicy {
+@@ -6797,12 +6802,10 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                              ? "USER_ROTATION_LOCKED" : "")
                          );
          }
@@ -191,16 +153,16 @@ index 889c52a..22109b8 100644
 +		if (mForceDefaultOrientation) {
 +			return mDefaultOrientation;
 +		}
-+			synchronized (mLock) {
++		synchronized (mLock) {
              int sensorRotation = mOrientationListener.getProposedRotation(); // may be -1
              if (sensorRotation < 0) {
                  sensorRotation = lastRotation;
-@@ -6947,7 +6967,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
+@@ -6947,7 +6950,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                      if (preferredRotation >= 0) {
                          return preferredRotation;
                      }
 -                    return Surface.ROTATION_0;
-+                                       return mDefaultOrientation;
++					return mDefaultOrientation;
              }
          }
      }

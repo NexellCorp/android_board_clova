@@ -17,7 +17,7 @@ index 2c82942..563cc2f 100644
  	invoke_psci_fn(PSCI_0_2_FN_SYSTEM_RESET, reason, 0, 0);
  }
 diff --git drivers/gpu/drm/nexell/nx_drm_drv.c drivers/gpu/drm/nexell/nx_drm_drv.c
-index cf0a2f2..5f97246 100644
+index 21b0100..2fde067 100644
 --- drivers/gpu/drm/nexell/nx_drm_drv.c
 +++ drivers/gpu/drm/nexell/nx_drm_drv.c
 @@ -23,12 +23,24 @@
@@ -186,12 +186,56 @@ index 03df428..2265251 100644
  		nx_mlc_set_top_power_mode(module, 1);
  		nx_mlc_set_top_sleep_mode(module, 0);
  		nx_mlc_set_mlc_enable(module, 1);
-
+diff --git drivers/power/bq25895m_charger.c drivers/power/bq25895m_charger.c
+index 5b1b5ed..10ed168 100644
+--- drivers/power/bq25895m_charger.c
++++ drivers/power/bq25895m_charger.c
+@@ -590,6 +590,7 @@ static int bq25895m_power_supply_get_property(struct power_supply *psy,
+ 
+ 	return 0;
+ }
++int g_bq25895m_online;
+ 
+ static int bq25895m_get_chip_state(struct bq25895m_device *bq,
+ 				  struct bq25895m_state *state)
+@@ -616,6 +617,8 @@ static int bq25895m_get_chip_state(struct bq25895m_device *bq,
+ 		*state_fields[i].data = ret;
+ 	}
+ 
++	g_bq25895m_online = state->online;
++
+ 	dev_dbg(bq->dev, "S:CHG/PG/VSYS=%d/%d/%d, F:CHG/BOOST/BAT=%d/%d/%d\n",
+ 		state->chrg_status, state->online, state->vsys_status,
+ 		state->chrg_fault, state->boost_fault, state->bat_fault);
+diff --git kernel/reboot.c kernel/reboot.c
+index bd30a97..dcdf62c 100644
+--- kernel/reboot.c
++++ kernel/reboot.c
+@@ -254,6 +254,7 @@ EXPORT_SYMBOL_GPL(kernel_halt);
+  *
+  *	Shutdown everything and perform a clean system power_off.
+  */
++extern int g_bq25895m_online;
+ void kernel_power_off(void)
+ {
+ 	kernel_shutdown_prepare(SYSTEM_POWER_OFF);
+@@ -263,7 +264,10 @@ void kernel_power_off(void)
+ 	syscore_shutdown();
+ 	pr_emerg("Power down\n");
+ 	kmsg_dump(KMSG_DUMP_POWEROFF);
+-	machine_power_off();
++	if(!g_bq25895m_online)
++		machine_power_off();
++	else
++		machine_restart("charging");
+ }
+ EXPORT_SYMBOL_GPL(kernel_power_off);
+ 
 diff --git kernel/sched/core.c kernel/sched/core.c
-index 1df6da0..cbd9121 100644
+index 9307827..e1aad04 100644
 --- kernel/sched/core.c
 +++ kernel/sched/core.c
-@@ -4025,6 +4025,7 @@ recheck:
+@@ -4027,6 +4027,7 @@ recheck:
  				return -EPERM;
  		}
  
@@ -199,7 +243,7 @@ index 1df6da0..cbd9121 100644
  		if (rt_policy(policy)) {
  			unsigned long rlim_rtprio =
  					task_rlimit(p, RLIMIT_RTPRIO);
-@@ -4038,6 +4039,7 @@ recheck:
+@@ -4040,6 +4041,7 @@ recheck:
  			    attr->sched_priority > rlim_rtprio)
  				return -EPERM;
  		}
