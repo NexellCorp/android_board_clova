@@ -186,27 +186,6 @@ index 03df428..2265251 100644
  		nx_mlc_set_top_power_mode(module, 1);
  		nx_mlc_set_top_sleep_mode(module, 0);
  		nx_mlc_set_mlc_enable(module, 1);
-diff --git drivers/power/bq25895m_charger.c drivers/power/bq25895m_charger.c
-index 5b1b5ed..10ed168 100644
---- drivers/power/bq25895m_charger.c
-+++ drivers/power/bq25895m_charger.c
-@@ -590,6 +590,7 @@ static int bq25895m_power_supply_get_property(struct power_supply *psy,
- 
- 	return 0;
- }
-+int g_bq25895m_online;
- 
- static int bq25895m_get_chip_state(struct bq25895m_device *bq,
- 				  struct bq25895m_state *state)
-@@ -616,6 +617,8 @@ static int bq25895m_get_chip_state(struct bq25895m_device *bq,
- 		*state_fields[i].data = ret;
- 	}
- 
-+	g_bq25895m_online = state->online;
-+
- 	dev_dbg(bq->dev, "S:CHG/PG/VSYS=%d/%d/%d, F:CHG/BOOST/BAT=%d/%d/%d\n",
- 		state->chrg_status, state->online, state->vsys_status,
- 		state->chrg_fault, state->boost_fault, state->bat_fault);
 diff --git kernel/reboot.c kernel/reboot.c
 index bd30a97..dcdf62c 100644
 --- kernel/reboot.c
