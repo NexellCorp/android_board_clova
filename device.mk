@@ -271,7 +271,8 @@ PRODUCT_COPY_FILES += \
 	device/nexell/clova/bootanimation.zip:system/media/bootanimation.zip
 
 PRODUCT_COPY_FILES += \
-	device/nexell/clova/Charging.bmp:system/media/Charging.bmp
+	device/nexell/clova/Charging.bmp:system/media/Charging.bmp \
+	device/nexell/clova/logo.bmp:system/media/logo.bmp
 #WIFI
 PRODUCT_COPY_FILES += \
 	device/nexell/clova/wifi/dhd:system/bin/dhd \
