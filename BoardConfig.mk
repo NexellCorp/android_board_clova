@@ -109,14 +109,14 @@ WIFI_DRIVER_FW_PATH_STA     := "/system/etc/firmware/fw_bcmdhd.bin"
 PRODUCT_DEFAULT_DEV_CERTIFICATE := device/nexell/clova/signing_keys/release
 
 # camera
-BOARD_CAMERA_BACK_DEVICE := "/dev/video6"
-BOARD_CAMERA_FRONT_DEVICE := "/dev/video7"
+# camera video device number for back-the orientation of the camera
+BOARD_CAMERA_BACK_DEVICE := "6"
+BOARD_CAMERA_BACK_ORIENTATION := "90"
 BOARD_CAMERA_NUM := 1
 # default = false or none
 BOARD_CAMERA_USE_ZOOM := true
 BOARD_CAMERA_INTERLACED := false
 # default = none
-BOARD_CAMERA_ORIENTATION := 90
 #BOARD_CAMERA_SKIP_FRAME := 10
 
 BOARD_USES_NXVOICE := true
