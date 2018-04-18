@@ -1,0 +1,60 @@
+diff --git src/com/android/camera/VideoModule.java src/com/android/camera/VideoModule.java
+index 9a941c7..fe94a9f 100644
+--- src/com/android/camera/VideoModule.java
++++ src/com/android/camera/VideoModule.java
+@@ -1173,8 +1173,7 @@ public class VideoModule extends CameraModule
+             // on the size restriction.
+         }
+ 
+-        int sensorOrientation =
+-                mActivity.getCameraProvider().getCharacteristics(mCameraId).getSensorOrientation();
++        int sensorOrientation =0;
+         int deviceOrientation =
+                 mAppController.getOrientationManager().getDeviceOrientation().getDegrees();
+         int rotation = CameraUtil.getImageRotation(
+diff --git src/com/android/camera/one/v2/imagesaver/YuvImageBackendImageSaver.java src/com/android/camera/one/v2/imagesaver/YuvImageBackendImageSaver.java
+index b81083a..c89b4cf 100644
+--- src/com/android/camera/one/v2/imagesaver/YuvImageBackendImageSaver.java
++++ src/com/android/camera/one/v2/imagesaver/YuvImageBackendImageSaver.java
+@@ -22,6 +22,7 @@ import android.graphics.Rect;
+ import android.net.Uri;
+ 
+ import com.android.camera.app.OrientationManager;
++import com.android.camera.app.OrientationManager.DeviceOrientation;
+ import com.android.camera.one.OneCamera;
+ import com.android.camera.one.v2.camera2proxy.ImageProxy;
+ import com.android.camera.one.v2.camera2proxy.TotalCaptureResultProxy;
+@@ -55,7 +56,6 @@ public class YuvImageBackendImageSaver implements ImageSaver.Builder {
+     /** Progress for JPEG saving after compression, before writing to disk. */
+     private static final int PERCENTAGE_COMPRESSION_DONE = 95;
+ 
+-
+     @ParametersAreNonnullByDefault
+     private final class ImageSaverImpl implements SingleImageSaver {
+         private final CaptureSession mSession;
+@@ -66,7 +66,7 @@ public class YuvImageBackendImageSaver implements ImageSaver.Builder {
+                 OrientationManager.DeviceOrientation imageRotation,
+                 ImageProcessorListener imageProcessorListener) {
+             mSession = session;
+-            mImageRotation = imageRotation;
++            mImageRotation = DeviceOrientation.CLOCKWISE_0;
+             mImageProcessorListener = imageProcessorListener;
+         }
+ 
+@@ -105,7 +105,7 @@ public class YuvImageBackendImageSaver implements ImageSaver.Builder {
+                 OrientationManager.DeviceOrientation imageRotation,
+                 OneCamera.PictureSaverCallback pictureSaverCallback) {
+             mSession = session;
+-            mImageRotation = imageRotation;
++            mImageRotation = DeviceOrientation.CLOCKWISE_0;
+             mPictureSaverCallback = pictureSaverCallback;
+         }
+ 
+@@ -214,7 +214,6 @@ public class YuvImageBackendImageSaver implements ImageSaver.Builder {
+             @Nonnull CaptureSession session) {
+         final OrientationManager.DeviceOrientation imageRotation = mImageRotationCalculator
+                 .toImageRotation();
+-
+         YuvImageProcessorListener yuvImageProcessorListener = new YuvImageProcessorListener(
+                 session, imageRotation, pictureSaverCallback);
+         return new MostRecentImageSaver(new ImageSaverImpl(session, imageRotation,
