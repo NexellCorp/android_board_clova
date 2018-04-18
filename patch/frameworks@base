@@ -1,11 +1,12 @@
 diff --git cmds/bootanimation/BootAnimation.cpp cmds/bootanimation/BootAnimation.cpp
-index 10fabcf..411c339 100644
+index 10fabcf..b9adc4c 100644
 --- cmds/bootanimation/BootAnimation.cpp
 +++ cmds/bootanimation/BootAnimation.cpp
-@@ -274,6 +274,22 @@ status_t BootAnimation::readyToRun() {
+@@ -274,6 +274,24 @@ status_t BootAnimation::readyToRun() {
  
      SurfaceComposerClient::openGlobalTransaction();
      control->setLayer(0x40000000);
++
 +	control->setSize(dinfo.h, dinfo.w);
 +	control->setPosition(0, 0);
 +
@@ -22,9 +23,23 @@ index 10fabcf..411c339 100644
 +
 +	mSession->setDisplayProjection(dtoken, 1, layer_rect, disp_rect);
 +
++
      SurfaceComposerClient::closeGlobalTransaction();
  
      sp<Surface> s = control->getSurface();
+@@ -422,9 +440,11 @@ void BootAnimation::checkExit() {
+     char value[PROPERTY_VALUE_MAX];
+     property_get(EXIT_PROP_NAME, value, "0");
+     int exitnow = atoi(value);
+-    if (exitnow) {
++
++    if (exitnow==2) {
+         requestExit();
+     }
++
+ }
+ 
+ bool BootAnimation::validClock(const Animation::Part& part) {
 diff --git media/java/android/media/AudioAttributes.java media/java/android/media/AudioAttributes.java
 index 89709ee..bc1dae8 100644
 --- media/java/android/media/AudioAttributes.java
@@ -87,7 +102,7 @@ index c70a87c..d52b410 100644
          if (maxVolume != MAX_STREAM_VOLUME[AudioSystem.STREAM_VOICE_CALL]) {
              MAX_STREAM_VOLUME[AudioSystem.STREAM_VOICE_CALL] = maxVolume;
 diff --git services/core/java/com/android/server/policy/PhoneWindowManager.java services/core/java/com/android/server/policy/PhoneWindowManager.java
-index 889c52a..af02afe 100644
+index 889c52a..db492b4 100644
 --- services/core/java/com/android/server/policy/PhoneWindowManager.java
 +++ services/core/java/com/android/server/policy/PhoneWindowManager.java
 @@ -443,6 +443,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
@@ -166,6 +181,14 @@ index 889c52a..af02afe 100644
              }
          }
      }
+@@ -7271,6 +7274,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
+         readLidState();
+         applyLidSwitchState();
+         updateRotation(true);
++		SystemProperties.set("service.bootanim.exit", "2");
+     }
+ 
+     private void applyLidSwitchState() {
 diff --git services/core/java/com/android/server/wm/WindowManagerService.java services/core/java/com/android/server/wm/WindowManagerService.java
 index 0d97059..f552008 100644
 --- services/core/java/com/android/server/wm/WindowManagerService.java
