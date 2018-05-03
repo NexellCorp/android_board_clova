@@ -257,6 +257,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 	persist.nv.pdm_chnum=4 \
 	persist.nv.pdm_gain=0 \
 	persist.nv.resample_out_chnum=2 \
+	persist.nv.sample_count=256 \
 	persist.nv.check_trigger=1 \
 	persist.nv.trigger_done_ret=1 \
 	persist.nv.pass_after_trigger=0 \
