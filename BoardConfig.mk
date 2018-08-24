@@ -112,10 +112,10 @@ PRODUCT_DEFAULT_DEV_CERTIFICATE := device/nexell/clova/signing_keys/release
 # camera video device number for back-the orientation of the camera
 BOARD_CAMERA_BACK_DEVICE := "6"
 BOARD_CAMERA_BACK_ORIENTATION := "90"
+BOARD_CAMERA_BACK_INTERLACED := "0"
 BOARD_CAMERA_NUM := 1
 # default = false or none
 BOARD_CAMERA_USE_ZOOM := true
-BOARD_CAMERA_INTERLACED := false
 # default = none
 #BOARD_CAMERA_SKIP_FRAME := 10
 
